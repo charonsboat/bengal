@@ -1,1 +1,6 @@
+# Block external requests
+#
+# IMPORTANT! Please, if you're using nginx, block these directories!
+# nginx doesn't parse all directories for additional configuration.
+
 Deny From All
