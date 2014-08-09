@@ -1,5 +1,7 @@
 <?php namespace Bengal\models;
 
+use Bengal\Bengal;
+
 
 /**
  * This is pretty much the model for our Blog object.
@@ -57,6 +59,11 @@ class Blog
 	 */
 	private $title;
 
+	/**
+	 * @var $user 				User
+	 */
+	private $user;
+
 
 	/**
 	 * Constructor for this class.
@@ -72,6 +79,8 @@ class Blog
 
 		$this->configurationFile = $this->dataRoot . '.production.blog.json';
 		$this->configurationFileTemplate = Bengal::DataRoot() . '.default.blog.json';
+
+		$this->user = new User($this->blogRoot);
 
 		$this->Fill();
 	}
@@ -97,15 +106,15 @@ class Blog
 	 */
 	public function Fill()
 	{
-		if (!file_exists($this->dataRoot . $this->configurationFile))
+		if (!file_exists($this->configurationFile))
 		{
-			$fileContents = file_get_contents($this->dataRoot . $this->configurationFileTemplate);
+			$fileContents = file_get_contents($this->configurationFileTemplate);
 
-			file_put_contents($this->dataRoot . $this->configurationFile, $fileContents);
+			file_put_contents($this->configurationFile, $fileContents);
 		}
 		else
 		{
-			$fileContents = file_get_contents($this->dataRoot . $this->configurationFile);
+			$fileContents = file_get_contents($this->configurationFile);
 		}
 
 		$blog = json_decode($fileContents);
@@ -132,7 +141,7 @@ class Blog
 		$blog->theme = $this->theme;
 		$blog->title = $this->title;
 
-		file_put_contents($this->dataRoot . $this->configurationFile, json_encode($blog));
+		file_put_contents($this->configurationFile, json_encode($blog));
 	}
 
 	/**
@@ -238,5 +247,26 @@ class Blog
 	public function setTitle($title)
 	{
 		$this->title = $title;
+	}
+
+	/**
+	 * Method to get user property.
+	 * 
+	 * @return 					User
+	 */
+	public function getUser()
+	{
+		return $this->user;
+	}
+
+	/**
+	 * Method to set user property.
+	 * 
+	 * @param $user 			User
+	 * @return 					void
+	 */
+	public function setUser($user)
+	{
+		$this->user = $user;
 	}
 }

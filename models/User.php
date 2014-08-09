@@ -1,5 +1,7 @@
 <?php namespace Bengal\models;
 
+use Bengal\Bengal;
+
 
 /**
  * This is pretty much the model for our User object.
@@ -10,6 +12,32 @@ class User
 	 * @var $alias 				string
 	 */
 	private $alias;
+
+	/**
+	 * @var $articleRoot 		string
+	 */
+	private $articleRoot;
+
+	/**
+	 * @var $blogRoot 			string
+	 */
+	private $blogRoot;
+
+	/**
+	 * @var $configurationFile 	string
+	 */
+	private $configurationFile;
+
+	/**
+	 * @var $configurationFileTemplate
+	 *							string
+	 */
+	private $configurationFileTemplate;
+
+	/**
+	 * @var $dataRoot 			string
+	 */
+	private $dataRoot;
 
 	/**
 	 * @var $email 				string
@@ -65,15 +93,15 @@ class User
 	 */
 	public function Fill()
 	{
-		if (!file_exists($this->storagePath . $this->configurationFile))
+		if (!file_exists($this->configurationFile))
 		{
-			$fileContents = file_get_contents($this->storagePath . $this->configurationFileTemplate);
+			$fileContents = file_get_contents($this->configurationFileTemplate);
 
-			file_put_contents($this->storagePath . $this->configurationFile, $fileContents);
+			file_put_contents($this->configurationFile, $fileContents);
 		}
 		else
 		{
-			$fileContents = file_get_contents($this->storagePath . $this->configurationFile);
+			$fileContents = file_get_contents($this->configurationFile);
 		}
 
 		$user = json_decode($fileContents);
@@ -98,7 +126,7 @@ class User
 		$user->name = $this->name;
 		$user->password = $this->password;
 
-		file_put_contents($this->storagePath . $this->configurationFile, json_encode($user));
+		file_put_contents($this->configurationFile, json_encode($user));
 	}
 
 	/**

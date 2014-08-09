@@ -24,8 +24,7 @@ class Bengal
 	 */
 	public function __construct()
 	{
-		$this->Blog = new Blog();
-		$this->User = new User();
+		$this->Blog = new Blog('default');
 	}
 
 	/**
@@ -46,8 +45,8 @@ class Bengal
 			{
 				$password = Slash::Mangle($_POST['password']);
 
-				$this->User->setPassword($password);
-				$this->User->Save();
+				$this->Blog->getUser()->setPassword($password);
+				$this->Blog->getUser()->Save();
 
 				$this->Blog->setHasOwner(true);
 				$this->Blog->Save();
@@ -71,7 +70,7 @@ class Bengal
 	 * 
 	 * @return 					string
 	 */
-	public static DataRoot()
+	public static function DataRoot()
 	{
 		return __DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
 	}
@@ -81,7 +80,7 @@ class Bengal
 	 * 
 	 * @return 					string
 	 */
-	public static ServerRoot()
+	public static function ServerRoot()
 	{
 		return __DIR__ . DIRECTORY_SEPARATOR;
 	}
