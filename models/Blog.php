@@ -1,4 +1,4 @@
-<?php namespace drmyersii;
+<?php namespace Bengal\models;
 
 
 /**
@@ -6,6 +6,16 @@
  */
 class Blog
 {
+	/**
+	 * @var $articleRoot 		string
+	 */
+	private $articleRoot;
+
+	/**
+	 * @var $blogRoot 			string
+	 */
+	private $blogRoot;
+
 	/**
 	 * @var $configurationFile 	string
 	 */
@@ -18,9 +28,9 @@ class Blog
 	private $configurationFileTemplate;
 
 	/**
-	 * @var $storagePath 		string
+	 * @var $dataRoot 		string
 	 */
-	private $storagePath;
+	private $dataRoot;
 
 	/**
 	 * @var $description 		string
@@ -53,11 +63,15 @@ class Blog
 	 * 
 	 * @return 					void
 	 */
-	public function __construct($configurationFile = 'production.blog.json', $configurationFileTemplate = 'default.blog.json', $storagePath = null)
+	public function __construct($blogTitle)
 	{
-		$this->configurationFile = $configurationFile;
-		$this->configurationFileTemplate = $configurationFileTemplate;
-		$this->storagePath = null === $storagePath ? __DIR__ . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR : $storagePath;
+		$this->blogRoot = Bengal::ServerRoot() . 'blogs' . DIRECTORY_SEPARATOR . $blogTitle . DIRECTORY_SEPARATOR;
+
+		$this->articleRoot = $this->blogRoot . 'articles' . DIRECTORY_SEPARATOR;
+		$this->dataRoot = $this->blogRoot . 'data' . DIRECTORY_SEPARATOR;
+
+		$this->configurationFile = $this->dataRoot . '.production.blog.json';
+		$this->configurationFileTemplate = Bengal::DataRoot() . '.default.blog.json';
 
 		$this->Fill();
 	}
@@ -83,15 +97,15 @@ class Blog
 	 */
 	public function Fill()
 	{
-		if (!file_exists($this->storagePath . $this->configurationFile))
+		if (!file_exists($this->dataRoot . $this->configurationFile))
 		{
-			$fileContents = file_get_contents($this->storagePath . $this->configurationFileTemplate);
+			$fileContents = file_get_contents($this->dataRoot . $this->configurationFileTemplate);
 
-			file_put_contents($this->storagePath . $this->configurationFile, $fileContents);
+			file_put_contents($this->dataRoot . $this->configurationFile, $fileContents);
 		}
 		else
 		{
-			$fileContents = file_get_contents($this->storagePath . $this->configurationFile);
+			$fileContents = file_get_contents($this->dataRoot . $this->configurationFile);
 		}
 
 		$blog = json_decode($fileContents);
@@ -118,7 +132,7 @@ class Blog
 		$blog->theme = $this->theme;
 		$blog->title = $this->title;
 
-		file_put_contents($this->storagePath . $this->configurationFile, json_encode($blog));
+		file_put_contents($this->dataRoot . $this->configurationFile, json_encode($blog));
 	}
 
 	/**

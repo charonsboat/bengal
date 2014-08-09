@@ -1,4 +1,4 @@
-<?php namespace drmyersii;
+<?php namespace Bengal\models;
 
 
 /**
@@ -32,11 +32,15 @@ class User
 	 * 
 	 * @return 					void
 	 */
-	public function __construct($configurationFile = 'production.user.json', $configurationFileTemplate = 'default.user.json', $storagePath = null)
+	public function __construct($blogRoot)
 	{
-		$this->configurationFile = $configurationFile;
-		$this->configurationFileTemplate = $configurationFileTemplate;
-		$this->storagePath = null === $storagePath ? __DIR__ . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR : $storagePath;
+		$this->blogRoot = $blogRoot;
+
+		$this->articleRoot = $this->blogRoot . 'articles' . DIRECTORY_SEPARATOR;
+		$this->dataRoot = $this->blogRoot . 'data' . DIRECTORY_SEPARATOR;
+
+		$this->configurationFile = $this->dataRoot . '.production.users.json';
+		$this->configurationFileTemplate = Bengal::DataRoot() . '.default.users.json';
 
 		$this->Fill();
 	}

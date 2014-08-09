@@ -1,4 +1,4 @@
-<?php namespace drmyersii;
+<?php namespace Bengal\models;
 
 
 /**

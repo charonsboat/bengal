@@ -1,4 +1,8 @@
-<?php namespace drmyersii;
+<?php namespace Bengal;
+
+use Bengal\models\Blog;
+use Bengal\models\Slash;
+use Bengal\models\User;
 
 
 class Bengal
@@ -60,5 +64,25 @@ class Bengal
 				';
 			}
 		}
+	}
+
+	/**
+	 * This Method returns the Data directory for this package.
+	 * 
+	 * @return 					string
+	 */
+	public static DataRoot()
+	{
+		return __DIR__ . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
+	}
+
+	/**
+	 * This Method returns the Root directory for this package.
+	 * 
+	 * @return 					string
+	 */
+	public static ServerRoot()
+	{
+		return __DIR__ . DIRECTORY_SEPARATOR;
 	}
 }
