@@ -46,21 +46,14 @@ class Bengal
 				$password = Slash::Mangle($_POST['password']);
 
 				$this->Blog->getUser()->setPassword($password);
-				$this->Blog->getUser()->Save();
+				//$this->Blog->getUser()->Save();
 
 				$this->Blog->setHasOwner(true);
-				$this->Blog->Save();
+				//$this->Blog->Save();
 			}
 			else
 			{
-				// Load setup page...
-				echo '
-					<form action="" method="post">
-						<input type="text" name="password" placeholder="password">
-						<input type="text" name="password_verify" placeholder="confirm password">
-						<input type="submit" value="submit">
-					</form>
-				';
+				include_once($this->ServerRoot() . 'views' . DIRECTORY_SEPARATOR . 'template.php');
 			}
 		}
 	}
